@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+   # - name: build docker image using war file
+   #   command: docker build -itd simple-ansible-image .
+   #   args:
+   #     chdir: /opt/docker
+     - name: create docker image using war file
+       command: docker build -t news-letter:latest .
+       args:
+        chdir: /opt/docker
+
+     - name: create tag to image
+       command: docker tag news-letter zulfikar2020/news-letter
+       ignore_errors: yes
+
+     - name: push image to dockerhub
+       command: docker push zulfikar2020/news-letter
+
+     - name: remove image from ansible server
+       command: docker rmi news-letter:latest zulfikar2020/news-letter
+       ignore_errors: yes

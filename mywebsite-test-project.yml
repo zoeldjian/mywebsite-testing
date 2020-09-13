@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+
+  - name: stop current running container
+    command: docker container stop news-letter
+    ignore_errors: yes
+
+  - name: remove stopped container
+    command: docker rm -f news-letter
+    ignore_errors: yes
+
+  - name: remove docker image
+    command: docker rmi zulfikar2020/news-letter:latest
+    ignore_errors: yes
+
+  - name: create docker image using war file
+    command: docker build -t news-letter:latest .
+    args:
+      chdir: /opt/docker
+
+  - name: pull image from dockerhub
+    command: docker pull zulfikar2020/news-letter:latest
+
+  - name: create and running container
+    command: docker run -itd --name testing-container -p 8080:8080 zulfikar2020/news-letter:latest
