@@ -7,7 +7,7 @@
    #   command: docker build -itd simple-ansible-image .
    #   args:
    #     chdir: /opt/docker
-     - name: create docker image using war file
+     - name: create docker image using node file
        command: docker build -t news-letter:latest .
        args:
         chdir: /opt/docker
